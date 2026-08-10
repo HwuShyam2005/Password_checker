@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Password Strength Checker</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <main class="container">
+
+    <!-- Welcome Section -->
+    <header class="header">
+      <h1>Password Checker</h1>
+
+      <!--
+        Friendly note placeholder — to be filled in later.
+        Example: "Let's see how strong your password really is!"
+      -->
+      <!-- <p class="friendly-note"></p> -->
+    </header>
+
+    <!-- Password Input Section -->
+    <section class="input-section">
+      <label for="password-input" class="input-label">Enter your password</label>
+
+      <div class="password-field-wrapper">
+        <input
+          type="password"
+          id="password-input"
+          class="password-input"
+          placeholder="Type your password here..."
+          autocomplete="new-password"
+        >
+
+        <button
+          type="button"
+          id="toggle-visibility"
+          class="toggle-visibility-btn"
+          aria-label="Show password"
+          aria-pressed="false"
+        >
+          <!-- Eye icon (shown when password is hidden) -->
+          <svg id="eye-open" class="eye-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+            <circle cx="12" cy="12" r="3"></circle>
+          </svg>
+
+          <!-- Eye-off icon (shown when password is visible) -->
+          <svg id="eye-closed" class="eye-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+            <path d="M17.94 17.94A10.94 10.94 0 0 1 12 20c-7 0-11-8-11-8a18.5 18.5 0 0 1 5.06-5.94M9.9 4.24A10.94 10.94 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+            <line x1="1" y1="1" x2="23" y2="23"></line>
+          </svg>
+        </button>
+      </div>
+    </section>
+
+    <!-- Strength Bar Section -->
+    <section class="strength-section">
+      <div class="strength-bar-container">
+        <div id="strength-bar" class="strength-bar"></div>
+      </div>
+      <p id="strength-label" class="strength-label"></p>
+    </section>
+
+    <!-- Requirements Checklist Section (to be filled in later) -->
+    <section class="requirements-section" id="requirements-list">
+      <!-- Requirement items will be dynamically inserted here by main.js -->
+    </section>
+
+  </main>
+
+  <script src="js/commonPasswords.js"></script>
+  <script src="js/rules.js"></script>
+  <script src="js/checker.js"></script>
+  <script src="js/scoring.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
