@@ -18,18 +18,18 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   toggleButton.addEventListener('click', () => {
-    const isPasswordVisible = passwordInput.type === 'text';
+    const isCurrentlyHidden = passwordInput.type === 'password';
 
     // Toggle input type
-    passwordInput.type = isPasswordVisible ? 'password' : 'text';
+    passwordInput.type = isCurrentlyHidden ? 'text' : 'password';
 
-    // Toggle icon visibility
-    eyeOpenIcon.style.display = isPasswordVisible ? 'block' : 'none';
-    eyeClosedIcon.style.display = isPasswordVisible ? 'none' : 'block';
+    // Toggle icon visibility: eye-open shows when VISIBLE, slash shows when HIDDEN
+    eyeOpenIcon.style.display = isCurrentlyHidden ? 'block' : 'none';
+    eyeClosedIcon.style.display = isCurrentlyHidden ? 'none' : 'block';
 
     // Update accessibility attributes
-    toggleButton.setAttribute('aria-label', isPasswordVisible ? 'Show password' : 'Hide password');
-    toggleButton.setAttribute('aria-pressed', String(!isPasswordVisible));
+    toggleButton.setAttribute('aria-label', isCurrentlyHidden ? 'Hide password' : 'Show password');
+    toggleButton.setAttribute('aria-pressed', String(isCurrentlyHidden));
   });
 
   console.log('[Password Toggle] Initialized successfully.');
@@ -39,30 +39,43 @@ document.addEventListener('DOMContentLoaded', () => {
   const strengthLabel = document.getElementById('strength-label');
   const strengthClasses = ['strength-poor', 'strength-weak', 'strength-fair', 'strength-strong'];
 
-  passwordInput.addEventListener('input', () => {
-    const password = passwordInput.value;
-    console.log('[DEBUG] Input event fired. Password:', password);
+  // Map each strength level to explicit width/color values
+  const strengthStyles = {
+    'strength-poor':   { width: '25%',  color: '#ef4444' },
+    'strength-weak':   { width: '50%',  color: '#f59e0b' },
+    'strength-fair':   { width: '75%',  color: '#fb923c' },
+    'strength-strong': { width: '100%', color: '#22c55e' }
+  };
 
-    // Clear previous stage classes
+  function updateStrengthBar(password) {
+    // Reset classes first
     strengthBar.classList.remove(...strengthClasses);
     strengthLabel.classList.remove(...strengthClasses);
 
     if (password.length === 0) {
       strengthBar.style.width = '0%';
+      strengthBar.style.backgroundColor = 'transparent';
       strengthLabel.textContent = '';
       return;
     }
 
-    console.log('[DEBUG] typeof getPasswordStrength:', typeof getPasswordStrength);
-    console.log('[DEBUG] typeof checkPassword:', typeof checkPassword);
-    console.log('[DEBUG] typeof passwordRules:', typeof passwordRules);
-
     const result = getPasswordStrength(password);
-    console.log('[DEBUG] Strength result:', result);
+    const style = strengthStyles[result.level];
+
+    // Force a reflow so the browser registers a real style change
+    // even if the previous and new state happen to match momentarily.
+    void strengthBar.offsetWidth;
 
     strengthBar.classList.add(result.level);
     strengthLabel.classList.add(result.level);
     strengthLabel.textContent = result.text;
-    console.log('[DEBUG] strengthBar classList now:', strengthBar.className);
+
+    // Set explicitly too, as a safety net in case class timing fails
+    strengthBar.style.width = style.width;
+    strengthBar.style.backgroundColor = style.color;
+  }
+
+  passwordInput.addEventListener('input', () => {
+    updateStrengthBar(passwordInput.value);
   });
 });
