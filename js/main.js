@@ -9,6 +9,14 @@ document.addEventListener('DOMContentLoaded', () => {
   const eyeOpenIcon = document.getElementById('eye-open');
   const eyeClosedIcon = document.getElementById('eye-closed');
 
+  // Defensive check — logs a clear error instead of failing silently
+  if (!passwordInput || !toggleButton || !eyeOpenIcon || !eyeClosedIcon) {
+    console.error('[Password Toggle] One or more elements not found:', {
+      passwordInput, toggleButton, eyeOpenIcon, eyeClosedIcon
+    });
+    return;
+  }
+
   toggleButton.addEventListener('click', () => {
     const isPasswordVisible = passwordInput.type === 'text';
 
@@ -24,4 +32,5 @@ document.addEventListener('DOMContentLoaded', () => {
     toggleButton.setAttribute('aria-pressed', String(!isPasswordVisible));
   });
 
+  console.log('[Password Toggle] Initialized successfully.');
 });
