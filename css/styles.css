@@ -122,7 +122,7 @@ body {
 }
 
 /* ===========================
-   Strength Bar (colors added in next commit)
+   Strength Bar
    =========================== */
 
 .strength-section {
@@ -141,7 +141,30 @@ body {
   height: 100%;
   width: 0%;
   border-radius: 4px;
-  transition: width 0.3s ease, background-color 0.3s ease;
+  transition: width 0.35s ease, background-color 0.35s ease;
+}
+
+/* Strength stages — applied dynamically via JS (scoring.js / main.js) */
+/* Usage: add one of these classes to #strength-bar, e.g. strength-bar.classList.add('strength-poor') */
+
+.strength-bar.strength-poor {
+  width: 25%;
+  background-color: #ef4444; /* red */
+}
+
+.strength-bar.strength-weak {
+  width: 50%;
+  background-color: #f59e0b; /* amber */
+}
+
+.strength-bar.strength-fair {
+  width: 75%;
+  background-color: #fb923c; /* orange */
+}
+
+.strength-bar.strength-strong {
+  width: 100%;
+  background-color: #22c55e; /* green */
 }
 
 .strength-label {
@@ -149,7 +172,14 @@ body {
   font-size: 0.85rem;
   font-weight: 500;
   color: #6b7280;
+  transition: color 0.35s ease;
 }
+
+/* Label color mirrors the bar stage for consistency */
+.strength-label.strength-poor { color: #ef4444; }
+.strength-label.strength-weak { color: #f59e0b; }
+.strength-label.strength-fair { color: #fb923c; }
+.strength-label.strength-strong { color: #22c55e; }
 
 /* ===========================
    Requirements Checklist (populated later)

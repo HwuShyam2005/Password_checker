@@ -33,4 +33,36 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   console.log('[Password Toggle] Initialized successfully.');
+
+  // ---- Strength bar wiring (real rule-based checking) ----
+  const strengthBar = document.getElementById('strength-bar');
+  const strengthLabel = document.getElementById('strength-label');
+  const strengthClasses = ['strength-poor', 'strength-weak', 'strength-fair', 'strength-strong'];
+
+  passwordInput.addEventListener('input', () => {
+    const password = passwordInput.value;
+    console.log('[DEBUG] Input event fired. Password:', password);
+
+    // Clear previous stage classes
+    strengthBar.classList.remove(...strengthClasses);
+    strengthLabel.classList.remove(...strengthClasses);
+
+    if (password.length === 0) {
+      strengthBar.style.width = '0%';
+      strengthLabel.textContent = '';
+      return;
+    }
+
+    console.log('[DEBUG] typeof getPasswordStrength:', typeof getPasswordStrength);
+    console.log('[DEBUG] typeof checkPassword:', typeof checkPassword);
+    console.log('[DEBUG] typeof passwordRules:', typeof passwordRules);
+
+    const result = getPasswordStrength(password);
+    console.log('[DEBUG] Strength result:', result);
+
+    strengthBar.classList.add(result.level);
+    strengthLabel.classList.add(result.level);
+    strengthLabel.textContent = result.text;
+    console.log('[DEBUG] strengthBar classList now:', strengthBar.className);
+  });
 });
